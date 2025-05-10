@@ -1,59 +1,92 @@
 {% extends 'base/base.html' %}
-
-{% block title %}KonvoAI{% endblock %}
+{% load static %}
 
 {% block content %}
-<section class="hero">
-  <div id="particles-js"></div>
-  <div class="hero-content text-center">
-    <h1 class="display-4 welcome-title">Welcome to KonvoAI</h1>
-    <p class="lead">Experience the future of AI-driven conversations.</p>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <h1 class="display-4 welcome-title">Welcome to KonvoAI</h1>
+      <p class="lead">Revolutionizing the future with AI</p>
+      <a href="#ai-insights" class="btn btn-primary btn-lg">Explore AI Insights</a>
+    </div>
   </div>
-</section>
-<section class="quote-section">
-  <div class="container">
-    <blockquote>"Empowering the world with intelligent conversations."</blockquote>
-    <p>Our mission is to transform how businesses and individuals interact with AI.</p>
-  </div>
-</section>
-<section class="ai-insights">
-  <div class="ai-section chatbot">
-    <i class="fas fa-comment-dots"></i>
-    <h2>Chatbot</h2>
-    <p>Engage with our intelligent chatbot for seamless conversations.</p>
-  </div>
-  <div class="ai-section ai-agent">
-    <i class="fas fa-user-astronaut"></i>
-    <h2>AI Agent</h2>
-    <p>Deploy AI agents for automated, smart task handling.</p>
-  </div>
-  <div class="ai-section ai-tool">
-    <i class="fas fa-tools"></i>
-    <h2>AI Tools</h2>
-    <p>Explore tools to enhance your AI-driven workflows.</p>
-  </div>
-</section>
+
+  <!-- Quote Section -->
+  <section class="quote-section" data-aos="fade-up">
+    <blockquote>
+      "The future belongs to those who believe in the beauty of their dreams."
+    </blockquote>
+    <p>— Eleanor Roosevelt</p>
+  </section>
+
+  <!-- AI Insights Section -->
+  <section id="ai-insights" class="ai-insights">
+    <div class="ai-section chatbot" data-aos="zoom-in">
+      <i class="fas fa-robot"></i>
+      <h2>Chatbot</h2>
+      <p>Intelligent conversational agents.</p>
+      <a href="#" class="btn btn-light">Learn More</a>
+    </div>
+    <div class="ai-section ai-agent" data-aos="zoom-in" data-aos-delay="100">
+      <i class="fas fa-user-astronaut"></i>
+      <h2>AI Agent</h2>
+      <p>Autonomous agents for smart solutions.</p>
+      <a href="#" class="btn btn-light">Learn More</a>
+    </div>
+    <div class="ai-section ai-tool" data-aos="zoom-in" data-aos-delay="200">
+      <i class="fas fa-tools"></i>
+      <h2>AI Tool</h2>
+      <p>Advanced tools for AI development.</p>
+      <a href="#" class="btn btn-light">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 KonvoAI. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-particlesJS('particles-js', {
-  particles: {
-    number: { value: 80, density: { enable: true, value_area: 800 } },
-    color: { value: '#00d4ff' },
-    shape: { type: 'circle' },
-    opacity: { value: 0.5, random: true },
-    size: { value: 3, random: true },
-    line_linked: { enable: true, distance: 150, color: '#00d4ff', opacity: 0.4, width: 1 },
-    move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-  },
-  interactivity: {
-    detect_on: 'canvas',
-    events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-    modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
-  },
-  retina_detect: true
-});
-</script>
+  <!-- Particle.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize Particles.js
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 100 },
+        "color": { "value": "#00d4ff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#00d4ff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": { "enable": true, "speed": 2 }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        }
+      }
+    });
+
+    // Initialize AOS
+    AOS.init();
+  </script>
 {% endblock %}
