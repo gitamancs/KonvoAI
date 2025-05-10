@@ -11,13 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- AOS for animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <!-- Custom CSS -->
   <style>
     body {
       background-color: #000;
       color: #fff;
       font-family: 'Roboto', sans-serif;
-      margin: 0;
+      margin: 0; /* Reset default margin */
+      overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     /* Navbar Styling */
     .navbar-dark {
@@ -26,6 +29,8 @@
       padding: 1rem 2rem;
       position: relative;
       z-index: 1000;
+      width: 100%;
+      box-sizing: border-box;
     }
     .navbar-brand {
       display: flex;
@@ -60,9 +65,9 @@
     /* Dropdown Styling */
     .dropdown-menu {
       background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-      border: 2px solid #00d4ff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3), inset 0 0 10px rgba(0, 123, 255, 0.2);
+      border: 1px solid #00d4ff;
+      border-radius: 5px;
+      box-shadow: 0 5px 7px rgba(0, 212, 255, 0.3), inset 0 0 10px rgba(0, 123, 255, 0.2);
       min-width: 250px;
       padding: 1rem;
       transform: translateY(10px);
@@ -115,6 +120,7 @@
       top: 0;
       left: 0;
       z-index: 0;
+      background-color: #000;
     }
     .hero-content {
       position: relative;
@@ -316,11 +322,105 @@
     .input-area button:hover {
       background: #00d4ff;
     }
+    /* Global */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #111;
+    }
+    /* Hero Section Enhancements */
+    .hero {
+      background: linear-gradient(to bottom, #1a1a1a, #000);
+    }
+    .welcome-title {
+      text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+      animation: slideIn 1s ease-in;
+    }
+    .lead {
+      text-shadow: 0 0 5px #fff;
+      animation: fadeIn 1.5s ease-in;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #00d4ff;
+      transform: scale(1.05);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Navbar Enhancements */
+    .navbar-dark .navbar-nav .nav-link:hover {
+      text-shadow: 0 0 5px #00d4ff;
+    }
+    /* Dropdown Enhancements */
+    .dropdown-menu {
+      transform: scale(0.9);
+    }
+    .nav-item.dropdown:hover .dropdown-menu {
+      transform: scale(1);
+    }
+    /* Quote Section */
+    .quote-section {
+      background-color: #222;
+    }
+    .quote-section blockquote {
+      border-left: 4px solid #00d4ff;
+      box-shadow: 0 0 10px #00d4ff;
+    }
+    /* AI Insights Section */
+    .ai-insights {
+      background-color: #222;
+    }
+    .ai-section {
+      border: 2px solid #00d4ff;
+      box-shadow: 0 0 10px #00d4ff;
+    }
+    .ai-section .btn-light {
+      margin-top: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .ai-section .btn-light:hover {
+      background-color: #00d4ff;
+      color: #fff;
+    }
+    /* Footer */
+    .footer {
+      background-color: #111;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    .social-links a {
+      color: #fff;
+      margin: 0 1rem;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .social-links a:hover {
+      color: #00d4ff;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .display-4 {
+        font-size: 2.5rem;
+      }
+      .lead {
+        font-size: 1rem;
+      }
+      .ai-insights {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #191818;">
     <a class="navbar-brand" href="{% url 'index' %}">
       <img src="{% static 'app/images/company_logo.png' %}" alt="Konvo Logo">
     </a>
@@ -406,6 +506,10 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
   {% block scripts %}
   {% endblock %}
 </body>
