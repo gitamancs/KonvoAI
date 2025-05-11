@@ -16,17 +16,17 @@
             <p>Hello! I'm your Health FAQs assistant. Ask me anything about health, and I'll provide helpful insights.</p>
           </div>
         {% else %}
-              {% for message in history %}
-              {% if message|slice:":9" == "Patient: " %}
-                <div class="chat-message user-message">
-                  <p>{{ message|slice:"9:" }}</p>
-                </div>
-              {% elif message|slice:":9" == "Chatbot: " %}
-                <div class="chat-message bot-message">
-                  <p>{{ message|slice:"9:" }}</p>
-                </div>
-              {% endif %}
-            {% endfor %}
+          {% for message in history %}
+            {% if message|slice:":9" == "Patient: " %}
+              <div class="chat-message user-message">
+                <p>{{ message|slice:"9:" }}</p>
+              </div>
+            {% elif message|slice:":9" == "Chatbot: " %}
+              <div class="chat-message bot-message">
+                {{ message|slice:"9:"|safe }}
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
       </div>
       
@@ -85,6 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
   color: #fff;
   margin-right: auto;
 }
+.bot-message ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #fff;
+}
+.bot-message li {
+  margin-bottom: 0.5rem;
+}
+.bot-message p {
+  margin: 0;
+}
 .user-message {
   background: linear-gradient(145deg, #333, #444);
   color: #fff;
@@ -125,6 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
 ::-webkit-scrollbar-thumb {
   background: #00d4ff;
   border-radius: 4px;
+}
+.bot-message p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+.bot-message strong {
+  font-weight: bold;
+  color: #ffffff; /* White for bold text, adjust as needed */
+}
+.bot-message em {
+  font-style: italic;
+  color: #ffffff; /* Light gray for italic text, adjust as needed */
 }
 </style>
 {% endblock %}
