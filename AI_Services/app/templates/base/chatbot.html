@@ -8,7 +8,17 @@
     <h1 class="text-center mb-4 welcome-title">Health FAQs Chatbot</h1>
     <p class="text-center mb-5 lead">Ask our AI-powered chatbot your health-related questions and get instant, reliable answers.</p>
     
-    <div class="chatbot-container mx-auto" style="max-width: 800px;">
+    <div class="chatbot-container mx-auto" style="max-width: 800px; position: relative;">
+      <!-- Clear History Button -->
+      <div class="chat-controls">
+        <form method="post" action="{% url 'chatbot' %}">
+          {% csrf_token %}
+          <button class="clear-btn" type="submit" name="action" value="clear" title="Clear History">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
+      </div>
+      
       <!-- Chat History -->
       <div class="chat-history p-4" id="chatHistory">
         {% if not history %}
@@ -16,17 +26,17 @@
             <p>Hello! I'm your Health FAQs assistant. Ask me anything about health, and I'll provide helpful insights.</p>
           </div>
         {% else %}
-              {% for message in history %}
-              {% if message|slice:":9" == "Patient: " %}
-                <div class="chat-message user-message">
-                  <p>{{ message|slice:"9:" }}</p>
-                </div>
-              {% elif message|slice:":9" == "Chatbot: " %}
-                <div class="chat-message bot-message">
-                  <p>{{ message|slice:"9:" }}</p>
-                </div>
-              {% endif %}
-            {% endfor %}
+          {% for message in history %}
+            {% if message|slice:":9" == "Patient: " %}
+              <div class="chat-message user-message">
+                <p>{{ message|slice:"9:" }}</p>
+              </div>
+            {% elif message|slice:":9" == "Chatbot: " %}
+              <div class="chat-message bot-message">
+                {{ message|slice:"9:"|safe }}
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
       </div>
       
@@ -37,7 +47,7 @@
           <div class="input-group">
             <input type="text" class="form-control" name="query" placeholder="Type your question..." aria-label="User question" required>
             <div class="input-group-append">
-              <button class="btn btn-primary send-btn" type="submit">
+              <button class="btn btn-primary send-btn" type="submit" name="action" value="send">
                 <i class="fas fa-paper-plane"></i> Send
               </button>
             </div>
@@ -69,10 +79,36 @@ document.addEventListener('DOMContentLoaded', () => {
   overflow: hidden;
 }
 .chat-history {
+  padding: 40px 16px 16px 16px; /* Keep padding for messages */
   max-height: 500px;
   overflow-y: auto;
   background-color: #222;
   border-bottom: 1px solid #00d4ff;
+}
+.chat-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1; /* Ensure it stays above the chat history */
+}
+.clear-btn {
+  background: linear-gradient(145deg, #007bff, #00d4ff);
+  color: #fff;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.clear-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
 }
 .chat-message {
   margin-bottom: 1rem;
@@ -84,6 +120,18 @@ document.addEventListener('DOMContentLoaded', () => {
   background: linear-gradient(145deg, #007bff, #00d4ff);
   color: #fff;
   margin-right: auto;
+}
+.bot-message ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #fff;
+}
+.bot-message li {
+  margin-bottom: 0.5rem;
+}
+.bot-message p {
+  margin: 0;
 }
 .user-message {
   background: linear-gradient(145deg, #333, #444);
@@ -125,6 +173,19 @@ document.addEventListener('DOMContentLoaded', () => {
 ::-webkit-scrollbar-thumb {
   background: #00d4ff;
   border-radius: 4px;
+}
+.bot-message p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+.bot-message strong {
+  font-weight: bold;
+  color: #ffffff;
+}
+.bot-message em {
+  font-style: italic;
+  color: #ffffff;
 }
 </style>
 {% endblock %}
