@@ -6,7 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from django.shortcuts import render
 from AI_service_backend.healthcare.chatbots.Health_FAQs import MedicalChatbot
 
-
 # Create your views here.
 def index(request):
     return render(request, 'base/index.html')
