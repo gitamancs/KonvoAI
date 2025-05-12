@@ -1,33 +1,38 @@
-from .databricks_utils import score_model
+import google.generativeai as genai
+#from decouple import config
+
+# Load the API key from .env
+API_KEY = "AIzaSyBg_0TJ_miX2UHYFjxNp9nH7EYGi9LiOJA"
+genai.configure(api_key=API_KEY)
 
 class MedicalChatbot:
-    def __init__(self):
+    def __init__(self, model_name="gemma-3-27b-it"):  # Default to a supported model
+        self.model = genai.GenerativeModel(model_name)
         self.history = []
  
     def run(self, query):
         self.history.append(f"Patient: {query}")
-    
+        context = "\n".join(self.history[-5:])  # Last 5 messages
+ 
+        prompt = f"""
+        You are a medical assistant chatbot. Respond to the patient’s health-related questions in a simple, friendly, and medically accurate manner.
+        Respond with clear, concise, and helpful information. Always provide information in a patient-friendly tone.
+        If the query relates to symptoms, diseases, or treatments, provide accurate medical insights.
+        Keep the conversation going.
+        Give a short and concise answer.
+ 
+        Question: {query}
+ 
+        Conversation so far:
+        {context}
+ 
+        Chatbot:
+        """
+ 
         try:
-            response = score_model([query])
-            print("Databricks response:", response)
-            
-            if 'predictions' in response:
-                if isinstance(response['predictions'], list):
-                    answer = response['predictions'][0]
-                elif isinstance(response['predictions'], dict):
-                    answer = response['predictions'].get('response', "⚠️ No 'response' key in predictions")
-                else:
-                    answer = f"⚠️ Unexpected type for 'predictions': {type(response['predictions'])}"
-            elif 'outputs' in response:
-                answer = response['outputs'][0] if isinstance(response['outputs'], list) else response['outputs']
-            elif isinstance(response, list) and len(response) > 0:
-                answer = response[0]
-            else:
-                answer = f"⚠️ Unexpected response format: {response}"
-            
+            response = self.model.generate_content(prompt)
+            answer = response.text.strip()
             self.history.append(f"Chatbot: {answer}")
             return answer
         except Exception as e:
-            error_msg = f"⚠️ Error: {str(e)}"
-            self.history.append(f"Chatbot: {error_msg}")
-            return error_msg
+            return f"⚠️ Error: {str(e)}"
